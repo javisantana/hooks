@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: pip install requests && python raise.py $TINYB_TOKEN $TELEGRAM_BOT
+          command: sudo pip install requests && python raise.py $TINYB_TOKEN $TELEGRAM_BOT
 
 workflows:
   version: 2
