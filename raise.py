@@ -6,7 +6,7 @@ import sys
 import itertools
 
 
-def hook(tinyb_token, telegram_bot):
+def hook(tinyb_token, telegram_bot, telegram_channel):
     Q = """
     with 
     (
@@ -57,12 +57,13 @@ def hook(tinyb_token, telegram_bot):
 
     #send to telegram
     html_text = '<pre>'  + '\n'.join(text) + '</pre>'
-    requests.get(f'https://api.telegram.org/bot{telegram_bot}/sendMessage?chat_id=@Tinybird_co&text={html_text}&parse_mode=HTML')
+    requests.get(f'https://api.telegram.org/bot{telegram_bot}/sendMessage?chat_id={telegram_channel}&text={html_text}&parse_mode=HTML')
 
 
 TINYB_TOKEN = sys.argv[1]
 TELEGRAM_BOT = sys.argv[2]
-hook(TINYB_TOKEN, TELEGRAM_BOT)
+TELEGRAM_CHANNEL = sys.argv[3]
+hook(TINYB_TOKEN, TELEGRAM_BOT, TELEGRAM_CHANNEL)
 
 
 
