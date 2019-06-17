@@ -49,7 +49,7 @@ def hook(tinyb_token, telegram_bot, telegram_channel):
         #text.append('\n')
         for g, name, value in items:
             name = name.replace('_', ' ')
-            pad = '.' * (35 - len(name) - len(value) - 2)
+            pad = '.' * (35 - len(name) - len(str(value)) - 2)
             text.append(f"{name} {pad} {value}")
         text.append('\n')
     end = f"END ({time:f}ms)"
