@@ -26,7 +26,10 @@ def hook(tinyb_token, telegram_bot, telegram_channel):
     ) as run_with_error_at,
     (
         select count() a from tracker where toDate(timestamp) < yesterday() and attr2 = 'Query'
-    ) as total_queries_at
+    ) as total_queries_at,
+    (
+        select count() a from tracker where toDate(timestamp) < today()
+    ) as total_events
     select 
         unique_users_yesterday users__unique_users_yesterday,
         unique_users_all_time users__unique_users_all_time,
