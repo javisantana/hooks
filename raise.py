@@ -7,38 +7,7 @@ import itertools
 
 
 def hook(tinyb_token, telegram_bot, telegram_channel):
-    Q = """
-    with 
-    (
-        select uniq(user_id) unique_users_yesterday from tracker where toDate(timestamp) > yesterday()
-    ) as unique_users_yesterday,
-    (
-        select uniq(user_id) unique_users_yesterday from tracker where toDate(timestamp) < yesterday()
-    ) as unique_users_all_time,
-    (
-        select count() a from tracker where toDate(timestamp) > yesterday() and attr3 = 'Run with error'
-    ) as run_with_error,
-    (
-        select count() a from tracker where toDate(timestamp) > yesterday() and attr2 = 'Query'
-    ) as total_queries,
-    (
-        select count() a from tracker where toDate(timestamp) < yesterday() and attr3 = 'Run with error'
-    ) as run_with_error_at,
-    (
-        select count() a from tracker where toDate(timestamp) < yesterday() and attr2 = 'Query'
-    ) as total_queries_at,
-    (
-        select count() a from tracker where toDate(timestamp) < today()
-    ) as total_events
-    select 
-        unique_users_yesterday users__unique_users_yesterday,
-        unique_users_all_time users__unique_users_all_time,
-        run_with_error query__run_with_error,
-        total_queries  query__total_queries,
-        run_with_error_at query__run_with_error_all_time,
-        total_queries_at query__total_queries_all_time
-    FORMAT JSON"""
-    r = requests.get(f"https://api.tinybird.co/v0/sql?q={Q}&token={tinyb_token}", verify=False).json()
+    r = requests.get(f"https://api.tinybird.co/v0/pipes/telegram_bot_daily.json?token={tinyb_token}").json()
     report_data = r['data'][0]
     time = r['statistics']['elapsed']
 
